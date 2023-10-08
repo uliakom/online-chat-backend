@@ -12,7 +12,7 @@ const sendVerificationCode = async (to, verificationCode) => {
 
     return true;
   } catch (error) {
-    throw new RequestError (500, "Email sending failed");
+    throw  RequestError (500, "Email sending failed");
   }
 };
 
