@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const { DB_HOST } = process.env;
 mongoose.set("strictQuery", true);
 
+  const authRouter = require("./routes/auth");
+
 const app = express();
 
 const server = app.listen(3001);
@@ -20,6 +22,17 @@ mongoose
     console.log(error.message);
     process.exit(1);
   });
+
+
+
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+
+app.use(logger(formatsLogger));
+app.use(cors());
+app.use(express.json());
+
+app.use("/", authRouter);
+
 
 
   const io = require("socket.io")(server, {

@@ -22,3 +22,13 @@ router.post(
   validateBody(registerSchema),
   authController.register
 );
+
+
+router.post(
+  "/verify",
+  jsonParser,
+  validateBody(verifySchema),
+  authController.verify
+);
+
+module.exports = router;
