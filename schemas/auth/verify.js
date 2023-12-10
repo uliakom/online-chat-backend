@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const verifySchema = Joi.object({
   email: Joi.string().required(),
-  verificationCode: Joi.number().required(),
+  verificationCode: Joi.string().required(),
 });
 
 const resendVerifySchema = Joi.object({

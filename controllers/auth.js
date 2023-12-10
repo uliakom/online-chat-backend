@@ -49,7 +49,7 @@ const verify = async (req, res, next) => {
 
   if (!user) throw new HttpError(404, "Not found");
 
-  if (user.verify || verificationCode !== Number(user.verificationCode)) {
+  if (user.verify || verificationCode !== user.verificationCode) {
     throw new HttpError(400, "Code is wrong");
   }
 
@@ -66,8 +66,32 @@ const verify = async (req, res, next) => {
   return res.json({ token, refreshToken, user: { name: user.name, email } });
 };
 
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (user && !user.verify) {
+    throw new HttpError(403, "Email not verified");
+  }
+  if (user === null) throw new HttpError(401, "Email or password is wrong");
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (isMatch === false) throw new HttpError(401, "Email or password is wrong");
+
+  const { _id: id } = user;
+  const { token, refreshToken } = generateTokens(id);
+
+  await User.findByIdAndUpdate(id, { token, refreshToken });
+
+  return res.json({
+    token,
+    refreshToken,
+    user: { name: user.name, email },
+  });
+};
 
 module.exports = {
   register: controllerWrapper(register),
-  verify: controllerWrapper(verify)
+  verify: controllerWrapper(verify),
+  login: controllerWrapper(login),
 }

@@ -31,4 +31,11 @@ router.post(
   authController.verify
 );
 
+router.post(
+  "/login",
+  jsonParser,
+  validateBody(loginSchema),
+  authController.login
+);
+
 module.exports = router;
