@@ -25,9 +25,9 @@ const register = async (req, res, next) => {
   if (currentUser !== null && currentUser.verify) {
     throw new HttpError(500, "Provided email already exists");
   }
-  // if (currentUser && !currentUser.verify) {
-  //   throw new HttpError(403, "User needs to complete verification");
-  // }
+  if (currentUser && !currentUser.verify) {
+    throw new HttpError(403, "User needs to complete verification");
+  }
 
   user.password = await bcrypt.hash(user.password, 10);
   const verificationCode = getRandomInteger();
