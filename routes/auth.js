@@ -38,4 +38,6 @@ router.post(
   authController.login
 );
 
+router.get("/logout",authenticate, authController.logout);
+
 module.exports = router;

@@ -86,12 +86,21 @@ const login = async (req, res, next) => {
   return res.json({
     token,
     refreshToken,
-    user: { name: user.name, email },
+    user: { name: user.username, email },
   });
+};
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+
+  await User.findByIdAndUpdate(_id, { token: "", refreshToken: "" });
+
+  res.status(204).end();
 };
 
 module.exports = {
   register: controllerWrapper(register),
   verify: controllerWrapper(verify),
   login: controllerWrapper(login),
+  logout:controllerWrapper(logout),
 }

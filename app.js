@@ -7,7 +7,10 @@ const mongoose = require("mongoose");
 const { DB_HOST } = process.env;
 mongoose.set("strictQuery", true);
 
-  const authRouter = require("./routes/auth");
+const authRouter = require("./routes/auth");
+const chatRouter = require("./routes/chat");
+const messageRouter = require("./routes/message");
+const userRouter = require("./routes/user");  
 
 const app = express();
 
@@ -32,6 +35,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", authRouter);
+app.use("/user", userRouter);
+app.use("/chat", chatRouter);
+app.use("/message", messageRouter);
 
 
 

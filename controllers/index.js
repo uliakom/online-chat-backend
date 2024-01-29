@@ -1,6 +1,12 @@
+const authController = require("./auth");
+const chatController = require("./chat.controller");
+const messageController = require("./message.controller");
+const userController = require("./user.controller");
 
-const authController = require('./auth');
 
 module.exports = {
-    authController,
-}
+  authController,
+  chatController,
+  messageController,
+  userController
+};
