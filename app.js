@@ -30,8 +30,16 @@ mongoose
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
+const corsOptions = {
+  origin: 'https://online-chat-frontend-ten.vercel.app', // домен фронтенду
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Authorization', 'Content-Type'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Обробляє preflight запити
 app.use(logger(formatsLogger));
-app.use(cors());
 app.use(express.json());
 
 
