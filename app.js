@@ -34,6 +34,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+
+// routes
 app.use("/", authRouter);
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
